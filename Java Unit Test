@@ -1,0 +1,155 @@
+package test.java;
+
+public class Calculator {
+	
+	public int add(int a, int b) {
+		return a + b;
+	}
+
+	public int subtract(int a, int b) {
+		return a - b;
+	}
+}
+
+package test.java;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class CalculatorTest {
+
+    @Test
+    public void testAdd() {
+        Calculator calculator = new Calculator();
+        int result = calculator.add(10, 5);
+        Assert.assertEquals(15, result);
+    }
+
+    @Test
+    public void testSubtract() {
+        Calculator calculator = new Calculator();
+        int result = calculator.subtract(10, 5);
+        Assert.assertEquals(5, result);
+    }
+}
+
+pom配置如下：
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>test</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+
+  <dependencies>
+  	<dependency>
+  		<groupId>junit</groupId>
+  		<artifactId>junit</artifactId>
+  		<version>4.13.2</version>
+  		<scope>test</scope>
+  	</dependency>
+  </dependencies>
+  
+  <properties>
+    <maven.test.skip>false</maven.test.skip>
+  </properties>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version> <!-- 确保使用的是较新版本的maven-compiler-plugin -->
+            <configuration>
+                <source>1.8</source> <!-- 将 source 设置为 7 或更高 -->
+                <target>1.8</target> <!-- 将 target 设置为 7 或更高 -->
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+</project>
+
+通过mvn test命令运行测试，当测试通过时，看到的结果如下：
+
+ [1;34mINFO [m] Compiling 2 source files to C:\Users\engxdnf\eclipse-workspace\test\target\test-classes
+ [1;34mINFO [m] 
+ [1;34mINFO [m]  [1m---  [0;32mmaven-surefire-plugin:2.12.4:test [m  [1m(default-test) [m @  [36mtest [0;1m --- [m
+ [1;34mINFO [m] Surefire report directory: C:\Users\engxdnf\eclipse-workspace\test\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running test.java.CalculatorTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.046 sec
+
+Results :
+
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+
+ [1;34mINFO [m]  [1m------------------------------------------------------------------------ [m
+ [1;34mINFO [m]  [1;32mBUILD SUCCESS [m
+ [1;34mINFO [m]  [1m------------------------------------------------------------------------ [m
+ [1;34mINFO [m] Total time:  1.791 s
+ [1;34mINFO [m] Finished at: 2024-08-20T11:44:22+08:00
+ [1;34mINFO [m]  [1m------------------------------------------------------------------------ [m
+
+如果修改上面的代码，模拟一个错误的测试，则结果如下：
+    @Test
+    public void testAdd() {
+        Calculator calculator = new Calculator();
+        int result = calculator.add(10, 5);
+        Assert.assertEquals(9, result);
+    }
+
+[1;34mINFO[m] Surefire report directory: C:\Users\engxdnf\eclipse-workspace\test\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running test.java.CalculatorTest
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.048 sec <<< FAILURE!
+testAdd(test.java.CalculatorTest)  Time elapsed: 0.013 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<9> but was:<15>
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:647)
+	at org.junit.Assert.assertEquals(Assert.java:633)
+	at test.java.CalculatorTest.testAdd(CalculatorTest.java:12)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+
+
+Results :
+
+Failed tests:   testAdd(test.java.CalculatorTest): expected:<9> but was:<15>
+
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
+
